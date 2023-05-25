@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const apiClient = axios.create({
   baseURL: "https://api.coingecko.com/api/v3/coins",
   headers: {
@@ -20,6 +19,7 @@ export default {
   // getProducts() {
   //   return apiClient.get("/products");
   // },
+
   getCoins() {
     return apiClient.get(
       "/markets?vs_currency=ars&order=market_cap_desc&per_page=100&page=1&sparkline=false"
@@ -33,8 +33,15 @@ export default {
   sentData(datos) {
     return apiClientBd.post("/transactions", datos);
   },
-  getMyTransactions() {
-    let asd = localStorage.getItem("password");
-    return apiClientBd.get(`/transactions?q={"user_id":${asd}}`);
+  getMyTransactions(user) {
+    // let asd = localStorage.getItem("password");
+    console.log(user);
+    return apiClientBd.get(`/transactions?q={"user_id":"${user}"}`);
+  },
+  deleteTransaction(id) {
+    return apiClientBd.delete(`/transactions/${id}`);
+  },
+  setEditTransaction(id, datos) {
+    return apiClientBd.patch(`/transactions/${id}`, datos);
   },
 };

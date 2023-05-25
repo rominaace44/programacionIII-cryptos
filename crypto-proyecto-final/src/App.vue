@@ -1,6 +1,6 @@
 <template>
   <div class="titlestyle">
-    <router-link to="/" class="title">
+    <router-link to="/coins" class="title">
       <h1>My Coin$</h1>
       <h3>Tu billetera virtual ;)</h3>
     </router-link>
@@ -14,6 +14,16 @@
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      asd: localStorage.getItem("password") || null,
+    };
+  },
+  created() {
+    localStorage.clear();
+  },
+};
 // import Prueba from "@/views/Prueba.vue";
 // export default {
 //   components: {

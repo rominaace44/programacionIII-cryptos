@@ -92,13 +92,13 @@ export default {
           money: this.total,
           datetime: this.datetime,
         };
-        console.log(datos);
+        console.log(datos, "soy la transaction");
 
         ProductsServices.sentData(datos).then((response) => {
           if (response.status === 201) {
             this.messagefinal = "Compra realizada!";
           }
-          console.log(response.data);
+          //console.log(response.data);
         });
       }
     },
@@ -144,6 +144,7 @@ export default {
   height: 50px;
   width: 50%;
   margin: auto;
+  padding-left: 2rem;
 }
 select {
   border-radius: 10px;
