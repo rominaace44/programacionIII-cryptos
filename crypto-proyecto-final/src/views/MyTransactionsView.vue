@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>Mis operaciones...</h1>
+    <!--TABLA DE TODAS LAS TRANSACCIONES-->
     <table class="table table-dark">
       <thead>
         <tr>
@@ -19,7 +20,7 @@
 
           <th>{{ new Date(transaction.datetime).toLocaleDateString() }}</th>
 
-          <th>${{ transaction.crypto_amount }}</th>
+          <th>{{ transaction.crypto_amount }}</th>
           <th>${{ transaction.money }}</th>
           <th>
             <div class="dropdown">
@@ -87,7 +88,47 @@
         />
       </div>
     </div>
-    <p v-if="messagefinal" class="error">{{ this.messagefinal }}</p>
+    <!--TABLA DE INVERSIONES-->
+    <h1>Mis Inversiones...</h1>
+
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Moneda</th>
+          <th scope="col">Monto</th>
+          <th scope="col">Importe en $</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="inversion in inversiones" :key="inversion._id">
+          <th>{{ inversion.crypto_code }}</th>
+          <th>{{ inversion.crypto_amount }}</th>
+          <th>${{ inversion.valorActual }}</th>
+        </tr>
+        <tr>
+          <th>TOTAL</th>
+          <th></th>
+          <th>${{ this.totalInversion() }}</th>
+        </tr>
+      </tbody>
+    </table>
+    <!--TABLA DE ANALISIS DE INVERSIONES-->
+    <h1>Análisis de inversiones...</h1>
+
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Moneda</th>
+          <th scope="col">Ganancia/perdida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="inversion in inversiones" :key="inversion._id">
+          <th>{{ inversion.crypto_code }}</th>
+          <th>${{ inversion.analisis }}</th>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>
@@ -110,6 +151,8 @@ export default {
       cantidadCoin: null,
       action: null,
       total: null,
+      //para detalle de inversiones
+      inversiones: [],
     };
   },
   created() {
@@ -142,6 +185,58 @@ export default {
       ProductsServices.getMyTransactions(this.user).then((response) => {
         console.log(response.data, "soy todas las transactiones");
         this.transactions = response.data;
+
+        this.transactions.map((item) => {
+          let existe = false;
+          let indice = undefined;
+          this.inversiones.map((element, index) => {
+            if (element.crypto_code === item.crypto_code) {
+              existe = true;
+              indice = index;
+            }
+          });
+          if (existe) {
+            this.inversiones[indice] = {
+              crypto_code: item.crypto_code,
+              crypto_amount:
+                item.action === "purchase"
+                  ? this.inversiones[indice].crypto_amount +
+                    Number.parseFloat(item.crypto_amount)
+                  : this.inversiones[indice].crypto_amount +
+                    Number.parseFloat(item.crypto_amount * -1),
+              money:
+                item.action === "purchase"
+                  ? this.inversiones[indice].money +
+                    Number.parseFloat(item.money)
+                  : this.inversiones[indice].money +
+                    Number.parseFloat(item.money * -1),
+            };
+          } else {
+            this.inversiones.push({
+              crypto_code: item.crypto_code,
+              crypto_amount:
+                item.action === "purchase"
+                  ? Number.parseFloat(item.crypto_amount)
+                  : Number.parseFloat(item.crypto_amount * -1),
+              money:
+                item.action === "purchase"
+                  ? Number.parseFloat(item.money)
+                  : Number.parseFloat(item.money * -1),
+            });
+          }
+        });
+        this.inversiones.map((item) => {
+          ProductsServices.getCoinDetails(item.crypto_code).then((response) => {
+            //console.log(response.data[0].current_price);
+            item.valorActual =
+              item.crypto_amount * response.data[0].current_price;
+            item.analisis = (item.valorActual - item.money).toFixed(2);
+            console.log(item.valorActual, "valores actuales");
+            console.log(item.analisis, "analisis de ganancias o perdidas");
+          });
+        });
+        console.log(this.inversiones);
+        // console.log(this.purchase, "soy todas las compras");
       });
     },
     sentEdit() {
@@ -169,6 +264,13 @@ export default {
         );
         console.log(edit, "datos editados");
       }
+    },
+    totalInversion() {
+      let total = 0;
+      this.inversiones.map((item) => {
+        total += item.valorActual;
+      });
+      return total.toFixed(2);
     },
   },
 };

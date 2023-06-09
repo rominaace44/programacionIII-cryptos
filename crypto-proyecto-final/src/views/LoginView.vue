@@ -7,6 +7,7 @@
       <input type="password" v-model="password" />
       <input type="submit" @click="sentUser" />
     </div>
+    <p v-if="message">{{ this.message }}</p>
   </div>
 </template>
 
@@ -17,15 +18,27 @@ export default {
     return {
       user: "",
       password: "",
+      userA: "rominaace44@gmail.com",
+      passwordA: "a1b2",
+      message: null,
     };
   },
   methods: {
     sentUser() {
       console.log(this.user, this.password);
       localStorage.clear();
-      localStorage.setItem("user", this.user);
-      localStorage.setItem("password", this.password);
-      this.$router.push("coins");
+      if (this.user === this.userA && this.password === this.passwordA) {
+        this.message = null;
+        localStorage.setItem("user", this.user);
+        localStorage.setItem("password", this.password);
+        this.$router.push("coins");
+      }
+      if (this.user === this.userA && this.password !== this.passwordA) {
+        this.message = "La contraseña no es correcta";
+      }
+      if (this.password === this.passwordA && this.user !== this.userA) {
+        this.message = "el ususario no corresponde";
+      }
     },
   },
 };

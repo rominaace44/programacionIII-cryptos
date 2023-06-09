@@ -30,12 +30,14 @@ export default {
 .container {
   text-decoration: none;
   color: #1e81b0;
+  margin: auto;
 }
 .event-Card {
-  width: 400px;
-  height: 250px;
+  max-width: 300px;
+  max-height: 300px;
   /* border: 2px solid black; */
-  border-radius: 40px;
+  padding: 1rem;
+  border-radius: 10%;
 
   text-align: center;
   margin-bottom: 15px;

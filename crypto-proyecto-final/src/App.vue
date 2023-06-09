@@ -9,8 +9,9 @@
     <router-link to="/coins">Monedas</router-link> |
     <router-link to="/historial">Mis historial</router-link>
   </nav>
-  <!-- <Prueba /> -->
+
   <router-view />
+  <!-- <Prueba /> -->
 </template>
 
 <script>

@@ -27,7 +27,7 @@ const routes = [
 
   {
     path: "/historial",
-    name: "historial",
+    name: "HistorialView",
     component: MyTransactionsView,
   },
 ];
