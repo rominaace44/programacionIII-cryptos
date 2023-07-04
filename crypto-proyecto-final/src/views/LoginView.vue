@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <h1>Bienvenido</h1>
-    <h2>Ingrese su usuario y contraseña</h2>
+  <div class="container">
+    <h1>Bienvenido a tu billetera virtual</h1>
+    <p>Una manera facil de invertir...</p>
+    <h4>Ingrese su usuario y contraseña</h4>
     <div class="flex">
-      <input type="text" v-model="user" />
+      <input type="email" v-model="user" @keyup="validation" />
       <input type="password" v-model="password" />
       <input type="submit" @click="sentUser" />
     </div>
@@ -25,8 +26,9 @@ export default {
   },
   methods: {
     sentUser() {
-      console.log(this.user, this.password);
+      //console.log(this.user, this.password);
       localStorage.clear();
+
       if (this.user === this.userA && this.password === this.passwordA) {
         this.message = null;
         localStorage.setItem("user", this.user);
@@ -40,10 +42,22 @@ export default {
         this.message = "el ususario no corresponde";
       }
     },
+    validation() {
+      let validationEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+      if (!validationEmail.test(this.user)) {
+        this.message = "debe escribir un email valido!!!!";
+      } else {
+        this.message = "";
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.container {
+  height: 80vh;
+  padding-top: 10rem;
+}
 .flex {
   display: flex;
   flex-direction: column;

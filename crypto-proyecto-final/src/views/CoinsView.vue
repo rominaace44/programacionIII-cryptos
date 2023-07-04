@@ -1,5 +1,9 @@
 <template>
   <div>
+    <nav>
+      <router-link to="/coins">Monedas</router-link> |
+      <router-link to="/historial">Mis historial</router-link>
+    </nav>
     <h2 class="text">Elige la moneda con la que quieres operar</h2>
 
     <div class="coins">
@@ -37,10 +41,14 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin-top: 35px;
+  margin-left: 10rem;
   /* flex-direction: row; */
   /* align-items: center; */
 }
 .text {
   color: #1e81b0;
+  background: #1e82b018;
+  width: 40rem;
+  margin: auto;
 }
 </style>

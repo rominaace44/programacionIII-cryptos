@@ -5,10 +5,10 @@
       <h3>Tu billetera virtual ;)</h3>
     </router-link>
   </div>
-  <nav>
+  <!-- <nav v-if="this.asd">
     <router-link to="/coins">Monedas</router-link> |
     <router-link to="/historial">Mis historial</router-link>
-  </nav>
+  </nav> -->
 
   <router-view />
   <!-- <Prueba /> -->
@@ -48,7 +48,7 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: #5386b9;
+  color: #535ab9;
 }
 
 nav a.router-link-exact-active {
@@ -66,10 +66,16 @@ nav a.router-link-exact-active {
   padding-left: 3rem;
   display: flex;
 }
+.titlestyle h1 {
+  color: white;
+}
 
 .title {
   color: white;
   text-decoration: none;
   font-size: x-large;
+}
+h1 {
+  color: #231092;
 }
 </style>

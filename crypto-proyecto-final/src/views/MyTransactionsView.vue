@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <nav>
+      <router-link to="/coins">Monedas</router-link> |
+      <router-link to="/historial">Mis historial</router-link>
+    </nav>
     <h1>Mis operaciones...</h1>
     <!--TABLA DE TODAS LAS TRANSACCIONES-->
     <table class="table table-dark">
@@ -164,6 +168,7 @@ export default {
       let totalOperacion = this.cantidadCoin * this.valor_coin;
       this.total = totalOperacion.toFixed(2);
     },
+    //ELIMINAR UNA TRANSACCION
     deleteTransaction(id) {
       ProductsServices.deleteTransaction(id).then((response) => {
         if (response.data.status === 200) {
@@ -171,6 +176,7 @@ export default {
         }
       });
     },
+    //EDITAR UNA TRANSACCION
     editTransaction(coin, id) {
       //obtengo detalle de la moneda
       this.selectTransaction = id;
@@ -181,6 +187,7 @@ export default {
         this.modal = true;
       });
     },
+    //BUSCAR TODAS LAS TRANSACCIONES Y SE SEPARAN POR COMPRA O VENTA
     getTransaction() {
       ProductsServices.getMyTransactions(this.user).then((response) => {
         console.log(response.data, "soy todas las transactiones");
@@ -225,6 +232,7 @@ export default {
             });
           }
         });
+        //RECORRO TODAS LAS INVERSIONES PARA SABER SI HUBO GANANCIA O NO COMPARADO CON EL VALOR ACTUAL
         this.inversiones.map((item) => {
           ProductsServices.getCoinDetails(item.crypto_code).then((response) => {
             //console.log(response.data[0].current_price);
@@ -265,6 +273,7 @@ export default {
         console.log(edit, "datos editados");
       }
     },
+    //METODO PARA SUMAR EL TOTAL DE LOS VALORES CORRECPONDIENTES A CADA MONEDA EN CANTIDA DE $ AL VALOR ACTUAL
     totalInversion() {
       let total = 0;
       this.inversiones.map((item) => {

@@ -1,34 +1,44 @@
 <template>
   <div v-if="event" class="container">
+    <nav>
+      <router-link to="/coins">Monedas</router-link> |
+      <router-link to="/historial">Mis historial</router-link>
+    </nav>
     <h1>Haz elegido la moneda: {{ this.event.name }}</h1>
     <h2>valor : ${{ this.event.current_price }}</h2>
 
     <div>
-      <form action="" class="formulario">
-        <label for="cantidad"> ingrese cantidad</label>
-        <input
-          type="number"
-          name=""
-          id="cantidad"
-          v-model="this.cantidad"
-          v-on:keyup="asd"
-        />
-        <p v-if="message" class="error">{{ this.message }}</p>
-        <label for="tipo"> seleccione operacion</label>
-        <select name="tipo" id="tipo" v-model="operacion">
-          <option value="">Operación</option>
-          <option
-            v-for="(operacion, index) in operaciones"
-            :key="index"
-            :value="operacion.value"
-          >
-            {{ operacion.name }}
-          </option>
-        </select>
-        <p v-if="message" class="error">{{ this.message }}</p>
+      <form action="">
+        <div class="formulario">
+          <label for="tipo"> seleccione operacion</label>
+          <select name="tipo" id="tipo" v-model="operacion">
+            <option value="">Operación</option>
+            <option
+              v-for="(operacion, index) in operaciones"
+              :key="index"
+              :value="operacion.value"
+            >
+              {{ operacion.name }}
+            </option>
+          </select>
+          <p v-if="message" class="error">{{ this.message }}</p>
+        </div>
+        <div v-if="this.operacion" class="formulario">
+          <label for="cantidad"> ingrese cantidad</label>
+          <input
+            type="number"
+            name=""
+            id="cantidad"
+            v-model="this.cantidad"
+            v-on:keyup="asd"
+          />
+          <p v-if="message" class="error">{{ this.message }}</p>
+        </div>
       </form>
-      <h1>total de la operacion:$ {{ total }}</h1>
-      <h5>usted esta comprado {{ cantidad }} {{ event.name }}</h5>
+      <div class="divCantidad">
+        <h1>total de la operacion:$ {{ total }}</h1>
+        <h5>usted esta comprado {{ cantidad }} {{ event.name }}</h5>
+      </div>
     </div>
     <div class="botons">
       <div>
@@ -107,7 +117,7 @@ export default {
     ProductsServices.getCoinDetails(this.id)
       .then((response) => {
         this.event = response.data[0];
-        console.log(this.event);
+        console.log(this.event, "soy el detalle de la moneda");
         this.name = response.data.name;
         this.valor_coin = response.data.current_price;
       })
@@ -119,6 +129,7 @@ export default {
 <style scoped>
 .container {
   height: 100vh;
+  padding-top: 5rem;
 }
 .boton {
   background-color: blue;
@@ -163,6 +174,12 @@ select {
   flex-direction: row;
   width: 50%;
   justify-content: space-around;
+  margin: auto;
+  margin-top: 5rem;
+}
+.divCantidad {
+  background: #1e82b018;
+  width: 50%;
   margin: auto;
   margin-top: 5rem;
 }
