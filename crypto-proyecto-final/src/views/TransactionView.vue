@@ -75,7 +75,7 @@ export default {
       cantidad: "",
       operacion: "",
       total: "",
-      user_id: "a1b2",
+      user_id: localStorage.getItem("password"),
       datetime: new Date().toLocaleString(),
       message: "",
       messagefinal: "",
@@ -95,7 +95,7 @@ export default {
         this.message = "Debe seleccionar una operación para continuar";
       } else {
         let datos = {
-          user_id: "a1b2",
+          user_id: this.user_id,
           action: this.operacion,
           crypto_code: this.event.id,
           crypto_amount: this.cantidad.toString(),
@@ -107,6 +107,9 @@ export default {
         ProductsServices.sentData(datos).then((response) => {
           if (response.status === 201) {
             this.messagefinal = "Compra realizada!";
+            this.cantidad = "";
+            this.operacion = "";
+            this.total = "";
           }
           //console.log(response.data);
         });
@@ -167,7 +170,7 @@ select {
 }
 .error {
   color: red;
-  font-size: 15px;
+  font-size: 25px;
 }
 .botons {
   display: flex;
