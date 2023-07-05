@@ -8,9 +8,9 @@ const apiClient = axios.create({
 });
 
 const apiClientBd = axios.create({
-  baseURL: "https://laboratorio3-f36a.restdb.io/rest",
+  baseURL: "https://labor3-d60e.restdb.io/rest/",
   headers: {
-    "x-apikey": "60eb09146661365596af552f",
+    "x-apikey": " d9002945094e72b41fbcfa71d2bcd0f4a540b",
     Accept: "application/json",
     "Content-Type": "application/json",
   },
